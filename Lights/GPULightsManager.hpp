@@ -25,15 +25,30 @@ class GPULightsManager  {
         }
 
         void toGPU(GLuint program) {
-            if (program == 0) return;
-            
-            // TO DO: Enviar tota la informació de la il·luminació a la GPU
-            
-            // TO DO: Enviar només les llums que estan actives a la GPU 
-            
-            // TO DO: Posar en el shader el nombre de llums actives
-            
+        // Si el identificador del programa es 0, no hacemos nada
+        if (program == 0) return;
+
+        // 1. Enviar la luz ambiental global a la GPU
+        // Esto asegura que el shader tenga el valor correcto de ambientLight
+        ambientLightToGPU(program, ambientLight);
+
+        // 2. Enviar las luces puntuales activas a la GPU
+        // Recorremos el vector de luces y enviamos solo las que están activas
+        int numActiveLights = 0;
+        for (size_t i = 0; i < lights.size(); i++) {
+            if (lights[i]->isEnabled()) {
+                lights[i]->toGPU(program); // Envía los datos de la luz puntual al shader
+                numActiveLights++;         // Contamos cuántas luces activas hay
+            }
         }
+
+        // 3. Enviar al shader el número de luces activas (si el shader lo necesita)
+        GLuint numLightsLocation = glGetUniformLocation(program, "numLights");
+        if (numLightsLocation != static_cast<GLuint>(-1)) {
+            glUniform1i(numLightsLocation, numActiveLights);
+        }
+        // Si el uniform no existe, no pasa nada (puedes añadir un mensaje de depuración si quieres)
+    }
         
 
         void addLight(shared_ptr<GPUPointLight> l) {

@@ -82,7 +82,7 @@ class GPUConfig {
             lights.push_back(GPUPointLight(
                 vec3(0.0f, 5.0f, 0.0f),
                 vec3(0.1f, 0.1f, 0.1f),
-                vec3(0.8f, 0.8f, 0.8f),
+                vec3(1.0f, 0.0f, 0.0f), // diffuse (rojo)
                 vec3(1.0f, 1.0f, 1.0f)
             ));
             
