@@ -10,6 +10,11 @@ Object::Object()
 void Object::setMaterial(shared_ptr<GPUMaterial> m) {
     material = m;
     textureID = 0;
+    
+    // Matriz para transformar el model es obligatorio porque cada objeto puede tener su propia transformación
+    modelMatrix = glm::mat4(1.0f);
+
+
 }
 
 
@@ -49,9 +54,13 @@ void Object::toGPU(GLuint p)
 
 }
 
-void Object::draw()
-{
-    // TO DO: A modificar si es necessari
+void Object::draw(){
+    // Antes de dibujar me aseguro de pasar modematrix al shader, asi cada objeto puede tener su propia transformacion
+    GLuint modelMatrixLoc = glGetUniformLocation(program, "modelMatrix");
+    
+    if(modelMatrixLoc!=-1){
+        glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+    }
 
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, objectVertices.size());
@@ -149,4 +158,8 @@ void Object::toGPUTexture(GLuint p)
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+}
+
+void Object::setmodelMatrix(glm::mat4 m){
+    modelMatrix = m;
 }

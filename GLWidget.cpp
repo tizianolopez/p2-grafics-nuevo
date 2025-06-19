@@ -160,7 +160,7 @@ void GLWidget::mouseMoveEvent(GLFWwindow* window, double xpos, double ypos)
         transform = glm::rotate(transform, yRot, glm::vec3(0.0f, 1.0f, 0.0f));
 
         // Enviar la matriu de transformació a la GPU
-        world->aplicaTG(transform);
+        world->setTGLastObject(transform);
     
     }
 }

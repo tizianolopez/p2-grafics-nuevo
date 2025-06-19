@@ -40,6 +40,9 @@ class Object: public GPUConnectable {
     bool   isTextured() { return objectTextures.size() != 0; }
     void   toGPUTexture(GLuint program);
 
+    void   setmodelMatrix(glm::mat4 m);
+
+
 protected:
 
     shared_ptr<GPUMaterial> material;   // Material de l'objecte
@@ -54,6 +57,9 @@ protected:
 
     GLuint textureID;
  
+    // Matriu de transformació del model la pongo aca porque es la que s'aplica a tots els objectes
+    glm::mat4 modelMatrix = glm::mat4(1.0f);
+
     
 };
 

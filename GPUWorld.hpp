@@ -75,8 +75,9 @@ public:
 
     void refreshProperties();
     void aplicaTG(glm::mat4 m);
+    
     void setTGLastObject(glm::mat4 m) { 
-        // TO DO: Implementar la funció
+        scene->setTGLastObject(m);
     }
 };  
 

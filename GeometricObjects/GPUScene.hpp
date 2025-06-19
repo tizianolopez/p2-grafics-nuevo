@@ -58,7 +58,12 @@ public:
     }   
 
     void setTGLastObject(glm::mat4 m) {
-        // TO DO: Implementar la transformació de l'últim objecte afegit
+        if (!objects.empty()) {
+            //como objects es mi vector de objetos, accedemos al ultimo con objects.back()
+            objects.back()->setmodelMatrix(m);
+        }   
     }
+    
+
 };
 
