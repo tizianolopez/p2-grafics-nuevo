@@ -9,6 +9,18 @@ uniform mat4 projectionMatrix;
 
 uniform vec3 ambientLight;
 
+struct PointLight {
+    vec3 position;
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+    float a;
+    float b;
+    float c;
+};
+
+uniform PointLight pointLight;
+
 out vec4 color;
 
 
