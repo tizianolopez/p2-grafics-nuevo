@@ -140,19 +140,25 @@ void GLWidget::mouseMoveEvent(GLFWwindow* window, double xpos, double ypos)
             
         } else if (config.mouseMode ==0)
         {
-            float newXTrans = xTrans + float(dy * config.sensitivityAmount);  // Reduced sensitivity for smoother Translation
-            float newYTrans = yTrans + float(dx * config.sensitivityAmount);  // Reduced sensitivity for smoother Translation
-
+            float newXTrans = xTrans + float(dx * config.sensitivityAmount * 0.01);  /// Calculamos la nueva traslación en X e Y basándonos en el desplazamiento del ratón (dx, dy), ajustando la sensibilidad con 'config.sensitivityAmount' y un factor de 0.01 para suavizar el movimiento.
+            float newYTrans = yTrans - float(dy * config.sensitivityAmount *0.01);  // Pongo un - para poner bien la Y
             setXTranslation(newXTrans);
             setYTranslation(newYTrans); 
         }
         
-        // TO DO - Implementar la translació amb el ratolí
-        
+        // Primero aplicamos la traslación para mover el objeto a la posición deseada en el espacio.
+        // Esto asegura que las rotaciones posteriores se realicen alrededor del origen del sistema de coordenadas local del objeto.
+        transform = glm::translate(transform, glm::vec3(xTrans, yTrans, 0.0f));
+
+        // Luego aplicamos las rotaciones en el siguiente orden:
+        // 1. Rotación alrededor del eje Z (zRot): Esto rota el objeto en el plano XY.
+        // 2. Rotación alrededor del eje X (xRot): Esto rota el objeto en el plano YZ.
+        // 3. Rotación alrededor del eje Y (yRot): Esto rota el objeto en el plano XZ.
+        // Las rotaciones se aplican en este orden para garantizar que cada transformación se realice en el sistema de coordenadas local del objeto.
         transform = glm::rotate(transform, zRot, glm::vec3(0.0f, 0.0f, 1.0f));
         transform = glm::rotate(transform, xRot, glm::vec3(1.0f, 0.0f, 0.0f));
         transform = glm::rotate(transform, yRot, glm::vec3(0.0f, 1.0f, 0.0f));
-        
+
         // Enviar la matriu de transformació a la GPU
         world->aplicaTG(transform);
     
@@ -192,6 +198,16 @@ void GLWidget::setZRotation(float angle)
     if (fabs(angle - zRot) > 0.01f) {
         zRot = angle;
     }
+}
+
+void GLWidget::setXTranslation(float translation)
+{
+    xTrans = translation;
+}
+
+void GLWidget::setYTranslation(float translation)
+{
+    yTrans = translation;
 }
 
 int GLWidget::getRenderMode() const {
