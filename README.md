@@ -60,3 +60,5 @@ Cal que aneu indicant a cada fitxa les tasques que heu realitzat i les que no, d
 ### Screenshots
 
 Per tal de documentar els vostres resultats, és important que adjunteu imatges amb el resultat i quan convingui, captures de pantalla amb la configuració que el genera. Per totes les imatges cal incloure un peu d'imatge indicant què es mostra, i tota la informació necessària per reproduïr l'imatge (la configuració, els objectes i les seves propietats, llums, ...)
+
+

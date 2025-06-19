@@ -90,6 +90,7 @@ void GLWidget::activateShader(const char* typeShader, const char* nameTexture) {
         program = shaderColor;
         program->use();
         world->toGPU(program->getId());
+        world->updateAmbientLight(program->getId(), config.lightAmbientGlobal);
     } else if (std::strcmp(typeShader, "Texture")==0) {
         program = shaderTexture;
         program->use();

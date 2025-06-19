@@ -42,7 +42,12 @@ class GPULightsManager  {
 
         void ambientLightToGPU(GLuint program, vec3 a) {
             ambientLight = a;
-            // TO DO: Enviar la llum ambient global a la GPU i revisar des d'on es crida aquest mètode
+            // TO DO: Enviar la llum ambient global a la GPU i revisar des d'on es crida aquest mètode 
+            GLuint ambientLightLoc = glGetUniformLocation(program, "ambientLight");
+            if (ambientLightLoc != -1) {
+                glUniform3fv(ambientLightLoc, 1, glm::value_ptr(ambientLight));
+            }
+            
         }
 
         void updateAllLights(GLuint program, vector<GPUPointLight> &lightsNew) {

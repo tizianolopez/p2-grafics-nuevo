@@ -17,7 +17,6 @@ void Object::setMaterial(shared_ptr<GPUMaterial> m) {
 
 }
 
-
 shared_ptr<GPUMaterial> Object::getMaterial() {
     return material;
 }
