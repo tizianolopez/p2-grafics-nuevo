@@ -75,7 +75,8 @@ class GPULightsManager  {
             }
 
             // TO DO Fitxa 2: Cal enviar totes les llums a la GPU des d'aquest mètode?
-            
+            this->toGPU(program);
+
         }
 
         void updateSingleLight(GLuint program, GPUPointLight &pl, int index) {

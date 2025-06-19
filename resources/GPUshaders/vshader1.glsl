@@ -28,5 +28,5 @@ out vec4 color;
 void main() {
     // Calculate world space position
     gl_Position = projectionMatrix*viewMatrix*modelMatrix * vPosition;
-    color = vec4(ambientLight, 1.0);
+    color = vec4(pointLight.diffuse, 1.0);
 }
