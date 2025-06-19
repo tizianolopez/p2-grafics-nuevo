@@ -71,4 +71,24 @@ void GPUPointLight::updateToGPU(int index) {
     // Cal obtenir els identificadors de les variables uniform de la GPU de la llum amb index "index"
     // i actualitzar els seus valors amb les propietats de la llum puntual
 
+    // Enviar cada atributo de la luz al índice correspondiente del array en el shader
+    std::string prefix = "pointLights[" + std::to_string(index) + "].";
+
+    GLint posLoc = glGetUniformLocation(program, (prefix + "position").c_str());
+    if (posLoc != -1) glUniform3fv(posLoc, 1, glm::value_ptr(pos));
+
+    GLint aLoc = glGetUniformLocation(program, (prefix + "a").c_str());
+    GLint bLoc = glGetUniformLocation(program, (prefix + "b").c_str());
+    GLint cLoc = glGetUniformLocation(program, (prefix + "c").c_str());
+    if (aLoc != -1) glUniform1f(aLoc, a);
+    if (bLoc != -1) glUniform1f(bLoc, b);
+    if (cLoc != -1) glUniform1f(cLoc, c);
+
+    GLint ambLoc = glGetUniformLocation(program, (prefix + "ambient").c_str());
+    GLint diffLoc = glGetUniformLocation(program, (prefix + "diffuse").c_str());
+    GLint specLoc = glGetUniformLocation(program, (prefix + "specular").c_str());
+    if (ambLoc != -1) glUniform3fv(ambLoc, 1, glm::value_ptr(getIa()));
+    if (diffLoc != -1) glUniform3fv(diffLoc, 1, glm::value_ptr(getId()));
+    if (specLoc != -1) glUniform3fv(specLoc, 1, glm::value_ptr(getIs()));
+
 }

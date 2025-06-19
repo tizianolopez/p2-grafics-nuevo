@@ -37,7 +37,7 @@ class GPULightsManager  {
         int numActiveLights = 0;
         for (size_t i = 0; i < lights.size(); i++) {
             if (lights[i]->isEnabled()) {
-                lights[i]->toGPU(program); // Envía los datos de la luz puntual al shader
+                lights[i]->updateToGPU(numActiveLights); // Envía la luz al índice correcto como es una array ahora trabajamos con updateToGPU
                 numActiveLights++;         // Contamos cuántas luces activas hay
             }
         }
@@ -75,6 +75,8 @@ class GPULightsManager  {
             }
 
             // TO DO Fitxa 2: Cal enviar totes les llums a la GPU des d'aquest mètode?
+            // Enviar todas las luces a la GPU después de actualizar el vector para que el shader tenga los datos actualizados (PASO 2.2 COMPROBACION DE QUE FUNCIONA)
+            this->toGPU(program);
             
         }
 

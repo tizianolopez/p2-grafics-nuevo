@@ -78,11 +78,26 @@ class GPUConfig {
             // Light settings
             maxLights = 8; // Allow up to 8 lights
             
-            // Add default light
+            // Limpia el vector por si acaso
+            lights.clear();
+
+            // Añade tres luces con colores difusos distintos
             lights.push_back(GPUPointLight(
                 vec3(0.0f, 5.0f, 0.0f),
                 vec3(0.1f, 0.1f, 0.1f),
-                vec3(1.0f, 0.0f, 0.0f), // diffuse (rojo)
+                vec3(1.0f, 0.0f, 0.0f), // rojo
+                vec3(1.0f, 1.0f, 1.0f)
+            ));
+            lights.push_back(GPUPointLight(
+                vec3(5.0f, 0.0f, 0.0f),
+                vec3(0.1f, 0.1f, 0.1f),
+                vec3(0.0f, 1.0f, 0.0f), // verde
+                vec3(1.0f, 1.0f, 1.0f)
+            ));
+            lights.push_back(GPUPointLight(
+                vec3(0.0f, 0.0f, 5.0f),
+                vec3(0.1f, 0.1f, 0.1f),
+                vec3(0.0f, 0.0f, 1.0f), // azul
                 vec3(1.0f, 1.0f, 1.0f)
             ));
             
