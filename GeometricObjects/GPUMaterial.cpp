@@ -17,7 +17,7 @@ GPUMaterial::GPUMaterial(vec3 a, vec3 d, vec3 s, float shininess):  Ka(a), Kd(d)
 void GPUMaterial::toGPU(GLuint program) {
      // Set material properties to GPU
     // TO DO: PAS 3.1: Enviar les propietats del material a la GPU
-    void GPUMaterial::toGPU(GLuint program) {
+ 
     // Enviamos los atributos del material como uniform struct
     GLint kaLoc = glGetUniformLocation(program, "material.ambient");
     GLint kdLoc = glGetUniformLocation(program, "material.diffuse");
@@ -30,4 +30,3 @@ void GPUMaterial::toGPU(GLuint program) {
     if (shLoc != -1) glUniform1f(shLoc, shininess);
 }
 
-}

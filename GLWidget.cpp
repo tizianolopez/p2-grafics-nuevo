@@ -278,7 +278,7 @@ void GLWidget::loadObject(const char* filename) {
         vec3(rand() / float(RAND_MAX), rand() / float(RAND_MAX), rand() / float(RAND_MAX)), // Ks
         10.0f + 90.0f * (rand() / float(RAND_MAX)) // shininess entre 10 y 100
     );
-    c->setMaterial(mat);
+    mesh->setMaterial(mat);
 
 
     world->addObject(shared_ptr<Object>(mesh));
