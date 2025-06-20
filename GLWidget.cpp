@@ -104,13 +104,20 @@ void GLWidget::activateShader(const char* typeShader, const char* nameTexture) {
             std::cerr << "ERROR: No hi ha nom de textura." << std::endl;
         }
     } else if (std::strcmp(typeShader, "Material")==0) {
-    program = shaderMaterial;
-    program->use();
-    world->toGPU(program->getId());
-    world->updateAmbientLight(program->getId(), config.lightAmbientGlobal);
+        program = shaderMaterial;
+        program->use();
+        world->toGPU(program->getId());
+        world->updateAmbientLight(program->getId(), config.lightAmbientGlobal);
+    } else if (std::strcmp(typeShader, "Normal")==0) {
+        program = shaderNormal;
+        program->use();
+        world->toGPU(program->getId());
+        world->updateAmbientLight(program->getId(), config.lightAmbientGlobal);
     } else {
         std::cerr << "Error: Tipus de shader desconegut." << std::endl;
     }
+
+
     world->aplicaTG(transform);
 }
 
