@@ -32,8 +32,17 @@ void Mesh::make() {
                 int idxNormal = f.idxNormals[j];
                 objectNormals.push_back(normalsVertexs[idxNormal]);
             }
+
+            // TO DO: Fitxa 3. Cal posar les coordenades de textura als vectors de dades per poder passar-les a la GPU
+             // Textura - DEBE IR AQUÍ DENTRO
+            if (f.idxTextures.size() > j) {
+                int idxTexture = f.idxTextures[j];
+                objectTextures.push_back(textVertexs[idxTexture]);
+            } else {
+                // Si no hay coordenadas de textura en el obj, usar (0,0)
+                objectTextures.push_back(vec2(0.0, 0.0));
+            }
         }
-        // TO DO: Fitxa 3. Cal posar les coordenades de textura als vectors de dades per poder passar-les a la GPU
     }
 }
 

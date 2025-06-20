@@ -81,6 +81,8 @@ void GLWidget::initShadersGPU()
     shaderMaterial = make_shared<GPUShader>("Material", "vMaterialShader.glsl", "fMaterialShader.glsl");
     shaderNormal = make_shared<GPUShader>("Normal", "vNormalShader.glsl", "fNormalShader.glsl");
     shaderPhong = make_shared<GPUShader>("Phong", "vPhongShader.glsl", "fPhongShader.glsl");
+    shaderTexturePhong = make_shared<GPUShader>("TexturePhong", "vTextureShader.glsl", "fTextureShader.glsl");
+
 
 
     // shaders per defecte
@@ -116,6 +118,11 @@ void GLWidget::activateShader(const char* typeShader, const char* nameTexture) {
         world->updateAmbientLight(program->getId(), config.lightAmbientGlobal);
     } else if (std::strcmp(typeShader, "Phong")==0) {
         program = shaderPhong;
+        program->use();
+        world->toGPU(program->getId());
+        world->updateAmbientLight(program->getId(), config.lightAmbientGlobal);
+    } else if (std::strcmp(typeShader, "TexturePhong")==0) {
+        program = shaderTexturePhong;
         program->use();
         world->toGPU(program->getId());
         world->updateAmbientLight(program->getId(), config.lightAmbientGlobal);

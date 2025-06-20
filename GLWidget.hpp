@@ -105,6 +105,8 @@ private:
     shared_ptr<GPUShader> shaderMaterial;
     shared_ptr<GPUShader> shaderNormal;
     shared_ptr<GPUShader> shaderPhong;
+    shared_ptr<GPUShader> shaderTexturePhong;
+
 
 
 
