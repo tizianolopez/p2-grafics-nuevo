@@ -19,7 +19,7 @@ struct PointLight {
     float c;
 };
 
-uniform PointLight pointLight;
+uniform PointLight pointLights[8];
 
 out vec4 color;
 
@@ -29,12 +29,5 @@ void main() {
     // Calculate world space position
     gl_Position = projectionMatrix*viewMatrix*modelMatrix * vPosition;
 
-    // Para comprobar la luz 0 (roja)
-    // color = vec4(pointLights[0].diffuse, 1.0);
-
-    // Para comprobar la luz 1 (verde)
-    // color = vec4(pointLights[1].diffuse, 1.0);
-
-    // Para comprobar la luz 2 (azul)
-    color = vec4(pointLights[2].diffuse, 1.0);
+    color = vec4(pointLights[0].diffuse, 1.0);
 }

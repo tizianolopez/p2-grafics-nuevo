@@ -37,6 +37,7 @@ class GPULightsManager  {
         int numActiveLights = 0;
         for (size_t i = 0; i < lights.size(); i++) {
             if (lights[i]->isEnabled()) {
+                lights[i]->toGPU(program); // Enviar la luz al shader
                 lights[i]->updateToGPU(numActiveLights); // Envía la luz al índice correcto como es una array ahora trabajamos con updateToGPU
                 numActiveLights++;         // Contamos cuántas luces activas hay
             }
@@ -89,5 +90,5 @@ class GPULightsManager  {
             
         }
 
-
+    
 };
