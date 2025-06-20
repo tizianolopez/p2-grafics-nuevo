@@ -15,7 +15,7 @@ void GPUCamera::toGPU(GLuint program)
 {
    modelViewToGPU(program, viewMatrix);
    projectionToGPU(program, projectionMatrix);
-   lookFromToGPU(program, origin);
+   lookFromToGPU(program, origin);  // <-- Aquí se pasa la posición de la cámara
     
 }
 
@@ -39,8 +39,11 @@ void GPUCamera::projectionToGPU(GLuint program, mat4 p)
 
 void GPUCamera::lookFromToGPU(GLuint program, vec3 lookfrom)
 {
-    // Set camera position for lighting calculations
-   // TO DO: Cal implementar-lo en el PAS 4.1
+    // PASO 4.1: Enviar la posición del observador a la GPU
+    GLuint viewPosLoc = glGetUniformLocation(program, "viewPos");
+    if (viewPosLoc != -1) {
+        glUniform3fv(viewPosLoc, 1, glm::value_ptr(lookfrom));
+    }
 }
 
 void GPUCamera::CalculaModelView()
