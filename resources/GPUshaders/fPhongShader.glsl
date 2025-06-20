@@ -24,7 +24,7 @@ struct PointLight {
     float b;
     float c;
 };
-uniform PointLight pointLight;
+uniform PointLight pointLights[8];
 
 // Posición del observador/cámara
 uniform vec3 viewPos;
@@ -33,23 +33,23 @@ void main() {
     // Normalizada
     vec3 norm = normalize(Normal);
     // Vector hacia la luz
-    vec3 lightDir = normalize(pointLight.position - FragPos);
+    vec3 lightDir = normalize(pointLights.position - FragPos);
     // Componente ambiente
-    vec3 ambient = pointLight.ambient * material.ambient;
+    vec3 ambient = pointLights.ambient * material.ambient;
 
     // Componente difusa
     float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = pointLight.diffuse * (diff * material.diffuse);
+    vec3 diffuse = pointLights.diffuse * (diff * material.diffuse);
 
     // Componente especular (Blinn-Phong)
     vec3 viewDir = normalize(viewPos - FragPos);
     vec3 halfwayDir = normalize(lightDir + viewDir);
     float spec = pow(max(dot(norm, halfwayDir), 0.0), material.shininess);
-    vec3 specular = pointLight.specular * (spec * material.specular);
+    vec3 specular = pointLights.specular * (spec * material.specular);
 
     // Atenuación (opcional)
-    float distance = length(pointLight.position - FragPos);
-    float attenuation = 1.0 / (pointLight.a + pointLight.b * distance + pointLight.c * (distance * distance));
+    float distance = length(pointLights.position - FragPos);
+    float attenuation = 1.0 / (pointLights.a + pointLights.b * distance + pointLights.c * (distance * distance));
 
     // Color final
     vec3 result = (ambient + diffuse + specular) * attenuation;
