@@ -79,6 +79,8 @@ void GLWidget::initShadersGPU()
     shaderColor = make_shared<GPUShader>("Color", "vshader1.glsl", "fshader1.glsl");
     shaderTexture = make_shared<GPUShader>("Texture", "vshader2.glsl", "fshader2.glsl");
     shaderMaterial = make_shared<GPUShader>("Material", "vMaterialShader.glsl", "fMaterialShader.glsl");
+    shaderNormal = make_shared<GPUShader>("Normal", "vNormalShader.glsl", "fNormalShader.glsl");
+
 
     // shaders per defecte
     program = shaderColor;

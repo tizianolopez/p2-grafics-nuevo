@@ -14,22 +14,26 @@ Mesh::~Mesh() {
 }
 
 void Mesh::make() {
-   // Cal passar els vertexs, les cares i les normals a les
-   // estructures per ser llegides a la GPU en els buffers corresponents
+    // Cal passar els vertexs, les cares i les normals a les
+    // estructures per ser llegides a la GPU en els buffers corresponents
 
-    // TO DO Pràctica 2: Crear estructures de normals i textures per a l'objecte
-    
     for (int i = 0; i < cares.size(); i++) {
         Face f = cares[i];
         for (int j = 0; j < f.idxVertices.size(); j++) {
             int idx = f.idxVertices[j];
             objectVertices.push_back(vertexs[idx]);
-            // Assignem un color aleatori a cada vertex
-            vec4 color = vec4((rand() % 100) / 100.0, (rand() % 100) / 100.0, (rand() % 100) / 100.0, 1.0);
-            objectColors.push_back(color);
+            
+            // (Opcional) Assignem un color aleatori a cada vertex (ja no necessari per shading de normals)
+            // vec4 color = vec4((rand() % 100) / 100.0, (rand() % 100) / 100.0, (rand() % 100) / 100.0, 1.0);
+            // objectColors.push_back(color);
+
+            // PAS 4.1: Afegim la normal corresponent a cada vertex
+            if (f.idxNormals.size() > j) {
+                int idxNormal = f.idxNormals[j];
+                objectNormals.push_back(normalsVertexs[idxNormal]);
+            }
         }
-        // TO DO: PAS 4.1. Cal posar les normals i 
-        // TO DO: Fitxa 3. Cal posarles coordenades de textura als vectors de dades per poder passar-les a la GPU
+        // TO DO: Fitxa 3. Cal posar les coordenades de textura als vectors de dades per poder passar-les a la GPU
     }
 }
 

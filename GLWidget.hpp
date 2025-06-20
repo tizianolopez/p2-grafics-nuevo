@@ -103,6 +103,8 @@ private:
     shared_ptr<GPUShader> shaderColor;
     shared_ptr<GPUShader> shaderTexture;
     shared_ptr<GPUShader> shaderMaterial;
+    shared_ptr<GPUShader> shaderNormal;
+
 
     shared_ptr<GPUShader> program;       // ID del programa ACTIU
 
