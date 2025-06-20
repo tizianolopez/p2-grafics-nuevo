@@ -78,6 +78,7 @@ void GLWidget::initShadersGPU()
 {
     shaderColor = make_shared<GPUShader>("Color", "vshader1.glsl", "fshader1.glsl");
     shaderTexture = make_shared<GPUShader>("Texture", "vshader2.glsl", "fshader2.glsl");
+    shaderMaterial = make_shared<GPUShader>("Material", "vMaterialShader.glsl", "fMaterialShader.glsl");
 
     // shaders per defecte
     program = shaderColor;
@@ -100,6 +101,11 @@ void GLWidget::activateShader(const char* typeShader, const char* nameTexture) {
         } else {
             std::cerr << "ERROR: No hi ha nom de textura." << std::endl;
         }
+    } else if (std::strcmp(typeShader, "Material")==0) {
+    program = shaderMaterial;
+    program->use();
+    world->toGPU(program->getId());
+    world->updateAmbientLight(program->getId(), config.lightAmbientGlobal);
     } else {
         std::cerr << "Error: Tipus de shader desconegut." << std::endl;
     }
@@ -265,6 +271,16 @@ void GLWidget::loadObject(const char* filename) {
     
     // TO DO Fitxa 2: Cal afegir Material a l'objecte de forma aleatòria
 
+     // Asigna un material aleatorio
+    auto mat = make_shared<GPUMaterial>(
+        vec3(rand() / float(RAND_MAX), rand() / float(RAND_MAX), rand() / float(RAND_MAX)), // Ka
+        vec3(rand() / float(RAND_MAX), rand() / float(RAND_MAX), rand() / float(RAND_MAX)), // Kd
+        vec3(rand() / float(RAND_MAX), rand() / float(RAND_MAX), rand() / float(RAND_MAX)), // Ks
+        10.0f + 90.0f * (rand() / float(RAND_MAX)) // shininess entre 10 y 100
+    );
+    c->setMaterial(mat);
+
+
     world->addObject(shared_ptr<Object>(mesh));
 
     // Cal actualitzar la GPU amb el nou objecte
@@ -278,6 +294,15 @@ void GLWidget::addCube() {
     c->make();
 
     // TO DO Fitxa 2: Cal afegir Material de forma aleatòria
+     // Asigna un material aleatorio
+    auto mat = make_shared<GPUMaterial>(
+        vec3(rand() / float(RAND_MAX), rand() / float(RAND_MAX), rand() / float(RAND_MAX)), // Ka
+        vec3(rand() / float(RAND_MAX), rand() / float(RAND_MAX), rand() / float(RAND_MAX)), // Kd
+        vec3(rand() / float(RAND_MAX), rand() / float(RAND_MAX), rand() / float(RAND_MAX)), // Ks
+        10.0f + 90.0f * (rand() / float(RAND_MAX)) // shininess entre 10 y 100
+    );
+    c->setMaterial(mat);
+
 
     world->addObject(shared_ptr<Object>(c));
 

@@ -25,32 +25,44 @@ void Object::materiaToGPU() {
     material->toGPU(program);
 }
 
+
+// Ya NO necesitos el buffer de colores (color_buffer y objectColors), porque el color del objeto lo dará el material y no un color por vértice. Por eso, eliminamos todo lo relacionado con color_buffer y objectColors.
 void Object::toGPU(GLuint p)
 {
     this->program = p;
-    
+
     glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &vertex_buffer);
-    glGenBuffers(1, &color_buffer);
+    glGenBuffers(1, &vertex_buffer);
+    glGenBuffers(1, &normal_buffer);
 
     glBindVertexArray(VAO);
-	// Bind vertices to layout location 0
-	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer );
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vec4) * objectVertices.size(), &objectVertices[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0); // This allows usage of layout location 0 in the vertex shader
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
 
-	// Bind normals to layout location 1
-	glBindBuffer(GL_ARRAY_BUFFER, color_buffer );
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vec4) * objectColors.size(), &objectColors[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(1); // This allows usage of layout location 1 in the vertex shader
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
+    // --- VÉRTICES ---
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vec4) * objectVertices.size(), &objectVertices[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0); // layout location 0
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
 
-    // TO DO: A modificar per a considerar les normals
+    // --- NORMALES ---
+    // Si tus normales son vec4, conviértelas a vec3 para el buffer
+    std::vector<glm::vec3> normalsFiltered;
+    normalsFiltered.reserve(objectNormals.size());
+    for (const auto& n : objectNormals)
+        normalsFiltered.push_back(vec3(n));
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, normal_buffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * normalsFiltered.size(), &normalsFiltered[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(1); // layout location 1
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    // --- MATERIAL ---
+    // PASO 3: Antes de dibujar el objeto, enviamos su material a la GPU.
+    // Así, el shader podrá acceder a los valores del material (Ka, Kd, Ks, shininess)
+    // y calcular el color del objeto correctamente.
+    if (material) material->toGPU(program);
 }
 
 void Object::draw(){
