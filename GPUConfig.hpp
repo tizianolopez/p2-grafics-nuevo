@@ -83,19 +83,19 @@ class GPUConfig {
 
             // Añade tres luces con colores difusos distintos
             lights.push_back(GPUPointLight(
-                vec3(0.0f, 5.0f, 0.0f),
+                vec3(0.0f, 2.0f, 0.0f),
                 vec3(0.1f, 0.1f, 0.1f),
-                vec3(1.0f, 0.0f, 0.0f), // rojo
+                vec3(0.7f, 0.7f, 0.7f), // Gris en difusa en la luz 1
                 vec3(1.0f, 1.0f, 1.0f)
             ));
             lights.push_back(GPUPointLight(
-                vec3(5.0f, 0.0f, 0.0f),
+                vec3(1.0f, 0.0f, 0.0f),
                 vec3(0.1f, 0.1f, 0.1f),
                 vec3(0.0f, 1.0f, 0.0f), // verde
                 vec3(1.0f, 1.0f, 1.0f)
             ));
             lights.push_back(GPUPointLight(
-                vec3(0.0f, 0.0f, 5.0f),
+                vec3(0.0f, 0.0f, 2.0f),
                 vec3(0.1f, 0.1f, 0.1f),
                 vec3(0.0f, 0.0f, 1.0f), // azul
                 vec3(1.0f, 1.0f, 1.0f)

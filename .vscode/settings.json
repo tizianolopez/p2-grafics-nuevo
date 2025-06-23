@@ -78,6 +78,9 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "semaphore": "cpp",
-        "__nullptr": "cpp"
+        "__nullptr": "cpp",
+        "__hash_table": "cpp",
+        "__tree": "cpp",
+        "ios": "cpp"
     }
 }
