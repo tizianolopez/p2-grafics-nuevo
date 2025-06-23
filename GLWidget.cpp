@@ -28,7 +28,7 @@ void GLWidget::initializeGL()
     initWorld();  
 
     // 1c. Activar el shader TexturePhong para aplicar Blinn-Phong con texturas
-    activateShader("Phong", NULL);
+    activateShader("TexturePhong", "resources/textures/earth1.png");
 }
 
 // Activa les característiques d'OpenGL que es faran servir
@@ -67,6 +67,19 @@ void GLWidget::initWorld() {
     auto cub = make_shared<Cub>();
     cub->make();
     scene->addObject(cub);
+
+
+    // 2a. Aplicar traslación y rotación al cubo
+    glm::mat4 transform = glm::mat4(1.0f);
+    transform = glm::translate(transform, glm::vec3(-1.0, 0.0, 0.0)); // Traslación
+    transform = glm::rotate(transform, glm::radians(45.0f), glm::vec3(1.0, 0.0, 0.0)); // Rotación X
+    cub->setmodelMatrix(transform);
+    
+    scene->addObject(cub);
+    
+    // 2b. Asignar textura a ambos objetos (usando earth.jpg ya que no tenemos F16s.bmp)
+    f16->initTextureGL("resources/textures/earth1.png");
+    cub->initTextureGL("resources/textures/earth1.png");
 }
 
 
@@ -134,8 +147,15 @@ void GLWidget::activateShader(const char* typeShader, const char* nameTexture) {
     } else if (std::strcmp(typeShader, "TexturePhong")==0) {
         program = shaderTexturePhong;
         program->use();
-        world->toGPU(program->getId());
+        world->toGPUTexture(program->getId());
         world->updateAmbientLight(program->getId(), config.lightAmbientGlobal);
+
+        if (nameTexture != NULL && nameTexture[0] != '\0') {
+            world->initTextureGL(nameTexture);
+        } else {
+            std::cerr << "ERROR: No hi ha nom de textura." << std::endl;
+        }
+
     } else {
         std::cerr << "Error: Tipus de shader desconegut." << std::endl;
     }

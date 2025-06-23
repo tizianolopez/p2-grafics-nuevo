@@ -34,7 +34,6 @@ void GPUScene::toGPUTexture(GLuint p) {
     this->program = p;
     for (unsigned int i = 0; i < objects.size(); i++) {
         if (objects.at(i)->isTextured()) objects.at(i)->toGPUTexture(program);
-        else std::cerr << "ERROR: Objecte no té textura." << std::endl;
     }
 };
 

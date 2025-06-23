@@ -143,7 +143,7 @@ void Object::toGPUTexture(GLuint p)
     
     glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &vertex_buffer);
-	glGenBuffers(1, &color_buffer);
+    glGenBuffers(1, &normal_buffer);
     glGenBuffers(1, &texture_buffer);
 
     glBindVertexArray(VAO);
@@ -154,10 +154,22 @@ void Object::toGPUTexture(GLuint p)
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
 
 	// Bind colors to layout location 1
-	glBindBuffer(GL_ARRAY_BUFFER, color_buffer );
+	/*glBindBuffer(GL_ARRAY_BUFFER, color_buffer );
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vec4) * objectColors.size(), &objectColors[0], GL_STATIC_DRAW);
 	glEnableVertexAttribArray(1); // This allows usage of layout location 1 in the vertex shader
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);*/
+    
+    // Convertim normals de vec4 a vec3
+    std::vector<glm::vec3> normalsFiltered;
+    normalsFiltered.reserve(objectNormals.size());
+    for (const auto& n : objectNormals)
+        normalsFiltered.push_back(glm::vec3(n)); // extreu només x, y, z
+        
+    // layout(location = 1) → normals
+    glBindBuffer(GL_ARRAY_BUFFER, normal_buffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * normalsFiltered.size(), &normalsFiltered[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Bind texture coordinates to layout location 2
     glBindBuffer(GL_ARRAY_BUFFER, texture_buffer );
