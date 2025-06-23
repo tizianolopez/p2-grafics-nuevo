@@ -27,8 +27,8 @@ void GLWidget::initializeGL()
     std::cout << "Inicialització del mon virtual\n";
     initWorld();  
 
-    // Activació del shader per defecte i enviament del mon a la GPU
-    activateShader("Color", NULL);
+    // 1c. Activar el shader TexturePhong para aplicar Blinn-Phong con texturas
+    activateShader("TexturePhong", "resources/textures/F16s.bmp");
 }
 
 // Activa les característiques d'OpenGL que es faran servir
@@ -41,22 +41,46 @@ void GLWidget::setupOpenGLFeatures()
 }
 
 // Inicialització de la geometria de l'escena i preparació per enviar-la a la GPU
-void GLWidget::initWorld()
-{
+void GLWidget::initWorld() {
+    // Crear el mundo/escena
     world = make_shared<GPUWorld>();
-   
-    auto lightsManager = make_shared<GPULightsManager>();
-    world->setLightManager(lightsManager);
 
-    auto camera = make_shared<GPUCamera>(config.observador, config.vrp, config.vup, config.fov, config.zNear, config.zFar,
-                                        config.viewportWidth, config.viewportHeight);
+    // 1a Cargar el modelo f16.obj
+    auto f16 = make_shared<Mesh>("resources/models/f16.obj");
+    f16->make(); // Prepara los buffers y datos
+    world->addObject(f16); // Añade el objeto a la escena
+    // Justificación: Añadimos el modelo principal que queremos visualizar.
+
+    // 1b Crear un cubo superpuesto
+    auto cub = make_shared<Cub>();
+    cub->make();
+    // 2a Transformar el cubo: traslación y rotación
+    glm::mat4 transform = glm::mat4(1.0f);
+    transform = glm::translate(transform, glm::vec3(-1.0, 0.0, 0.0)); // Traslación
+    transform = glm::rotate(transform, glm::radians(45.0f), glm::vec3(1.0, 0.0, 0.0)); // Rotación X
+    cub->setmodelMatrix(transform);
+    world->addObject(cub);
+    // Justificación: Creamos el cubo y lo posicionamos según el enunciado.
+
+    // 2b. Asignar textura a ambos objetos
+    f16->initTextureGL("resources/textures/F16s.bmp");
+    cub->initTextureGL("resources/textures/F16s.bmp");
+    // Justificación: Así ambos objetos usan la textura pedida.
+
+    // 1d Configurar la cámara
+    auto camera = make_shared<GPUCamera>(
+        glm::vec3(5.0, 3.0, 5.0), // posición cámara
+        glm::vec3(0.0, 0.0, 0.0), // mira al centro
+        glm::vec3(0.0, 1.0, 0.0), // up vector
+        30.0f,                    // FOV
+        0.1f, 100.0f,             // near, far
+        config.viewportWidth, config.viewportHeight
+    );
     world->setCamera(camera);
+    // Justificación: Así la cámara está en la posición y orientación pedidas.
 
-    // Creació de l'escena
-    auto scene = make_shared<GPUScene>();
-    world->setScene(scene);
-    world->setConfig(make_shared<GPUConfig>(config));
-
+   // 1c. Aplicar Blinn-Phong con interpolación Phong
+    // (Este paso se completará en activateShader)
 }
 
 
