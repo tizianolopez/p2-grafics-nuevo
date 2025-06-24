@@ -10,6 +10,22 @@ GPUMaterial::GPUMaterial(vec3 d):  Ka(0.2f), Kd(d), Ks(0.8f) {
     opacity = 1;
 };
 
+/**
+ * 
+ * Este constructor crea un material con valores personalizaedos unoa
+ * Los materiales se añaden despues de la creacion del objeto pero previo a agregarlos a la escena.
+ * auto mat = std::make_shared<GPUMaterial>(
+ *     glm::vec3(rf, gf, bf), // Ka (ambient)
+ *     glm::vec3(rf, gf, bf), // Kd (diffuse)
+ *     glm::vec3(rf, gf, bf), // Ks (specular)
+ *     0.0f                       // shininess
+ * );
+ * 
+ * // Y despues en la clase Objeto tenemos este metodo
+ * objeto->setMaterial(mat);
+ * 
+ * despues de asignarle el material lo agregarímos a la escena.
+ */
 GPUMaterial::GPUMaterial(vec3 a, vec3 d, vec3 s, float shininess):  Ka(a), Kd(d), Ks(s), shininess(shininess) {
     opacity = 1;
 };

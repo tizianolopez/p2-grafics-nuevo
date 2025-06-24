@@ -146,7 +146,7 @@ void GUIRenderToy::renderMenus(GLWidget& glWidget)
         ImGui::EndMainMenuBar();
     }
 }
-
+//Para que se pueda controlar desde la interfaz
 void GUIRenderToy::renderControls(GLWidget& glWidget) {
     // Control panel window
     ImGui::Begin("Configuration");
@@ -172,6 +172,7 @@ void GUIRenderToy::renderControls(GLWidget& glWidget) {
     if (ImGui::RadioButton("Mesh", &renderMode, 3)) { glWidget.setRenderMode(renderMode); }
     
     // GPUMaterial Properties Section
+    //PUEDO CREAR UN NUEVO SEPARARDOR CON TEXTCOLORES Y ADENTRO MI SLIDER
     ImGui::Separator(); 
     ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "GPUMaterial de l'objecte"); 
     ImGui::Separator();

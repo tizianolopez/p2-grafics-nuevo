@@ -68,12 +68,12 @@ class GPUConfig {
             viewportHeight = wh;
             
             // Camera settings
-            observador = vec3(0.0f, 0.0f, 5.0f);
-            vrp = vec3(0.0f, 0.0f, 0.0f);
-            vup = vec3(0.0f, 1.0f, 0.0f);
-            fov = 30.0f;
-            zNear = 0.1f;
-            zFar = 100.0f;
+            observador = vec3(0.0f, 0.0f, 5.0f); // Posición del observador
+            vrp = vec3(0.0f, 0.0f, 0.0f); // Punto de referencia/Punto de mira (VRP)
+            vup = vec3(0.0f, 1.0f, 0.0f); // Vector hacia arriba (VUP)
+            fov = 30.0f;  // Campo de visión
+            zNear = 0.1f; // Plano cercano
+            zFar = 100.0f; // Plano lejano
             
             // Light settings
             maxLights = 8; // Allow up to 8 lights
@@ -83,13 +83,13 @@ class GPUConfig {
 
             // Añade tres luces con colores difusos distintos
             lights.push_back(GPUPointLight(
-                vec3(0.0f, 2.0f, 0.0f),
-                vec3(0.8f, 0.8f, 0.8f),
-                vec3(0.7f, 0.7f, 0.7f), // Gris en difusa en la luz 1
-                vec3(1.0f, 1.0f, 1.0f)
+                vec3(0.0f, 2.0f, 0.0f), // posición de la luz
+                vec3(0.8f, 0.8f, 0.8f), // componente ambiental
+                vec3(0.7f, 0.7f, 0.7f), // componente difusa
+                vec3(1.0f, 1.0f, 1.0f) // componente especular
             ));
             lights.push_back(GPUPointLight(
-                vec3(1.0f, 0.0f, 0.0f),
+                vec3(1.0f, 0.0f, 0.0f), //
                 vec3(0.1f, 0.1f, 0.1f),
                 vec3(0.0f, 1.0f, 0.0f), // verde
                 vec3(1.0f, 1.0f, 1.0f)

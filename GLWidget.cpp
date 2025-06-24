@@ -27,8 +27,8 @@ void GLWidget::initializeGL()
     std::cout << "Inicialització del mon virtual\n";
     initWorld();  
 
-    // 1c. Activar el shader TexturePhong para aplicar Blinn-Phong con texturas
-    activateShader("TexturePhong", "resources/textures/earth1.png");
+    // Activar el modelo de iluminacion (shader) 
+    activateShader("Color", NULL); //Si no contiene texturas se pone NULL
 }
 
 // Activa les característiques d'OpenGL que es faran servir
@@ -58,28 +58,7 @@ void GLWidget::initWorld() {
     world->setScene(scene);
     world->setConfig(make_shared<GPUConfig>(config));
 
-    // 1a. Cargar el modelo f16.obj
-    auto f16 = make_shared<Mesh>("resources/models/f16.obj");
-    f16->make();
-    scene->addObject(f16);
-    
-    // 1b. Crear un cubo superpuesto al objeto anterior
-    auto cub = make_shared<Cub>();
-    cub->make();
-    scene->addObject(cub);
-
-
-    // 2a. Aplicar traslación y rotación al cubo
-    glm::mat4 transform = glm::mat4(1.0f);
-    transform = glm::translate(transform, glm::vec3(-1.0, 0.0, 0.0)); // Traslación
-    transform = glm::rotate(transform, glm::radians(45.0f), glm::vec3(1.0, 0.0, 0.0)); // Rotación X
-    cub->setmodelMatrix(transform);
-    
-    scene->addObject(cub);
-    
-    // 2b. Asignar textura a ambos objetos (usando earth.jpg ya que no tenemos F16s.bmp)
-    f16->initTextureGL("resources/textures/earth1.png");
-    cub->initTextureGL("resources/textures/earth1.png");
+    //updateGlobalAmbientLight();
 }
 
 
@@ -357,6 +336,8 @@ void GLWidget::addCube() {
 
 
     world->addObject(shared_ptr<Object>(c));
+
+    // No hacen falteuno dosa aplicar transformaciones 
 
     // Cal actualitzar la GPU amb el nou objecte
     world->lastObjectToGPU(program->getId());

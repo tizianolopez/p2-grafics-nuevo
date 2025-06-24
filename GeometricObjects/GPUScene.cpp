@@ -12,6 +12,26 @@ GPUScene::~GPUScene() {
     objects.clear();
 }
 
+
+/**
+ * Add object euno unoañade objetos a la escena
+ * Para ello primero craeamos el objeto, lo preparamos con make() y luego lo añadimos a la escena.
+ * 
+ * auto cubo = std::make_shared<Cub>();
+ * cubo->make();
+ * 
+ * aca en medio podemos agregar transformaciones al cubo, por ejemplo:
+ * * transform = glm::translate(transform, glm::vec3(-1.0f, 0.0f, 0.0f)); // Primero siempre la traslación
+ * transform = glm::rotate(transform, glm::radians(grados), glm::vec3(X,Y,Z)); // Luego las rotaciones
+ * 
+ * scene->addObject(cubo);
+ *
+ * auto objeto = std::make_shared<Mesh>("algun.obj");
+ * objeto->make(); // Prepara la geometría
+ * scene->addObject(objeto);
+ * 
+ * // Nota: Llamar a make() antes de addObject() para preparar los datos.
+ */
 /**
  * @brief GPUScene::addObject
  * @param obj
